@@ -85,9 +85,9 @@
 ## ❤️ Credits  
 Developed as part of **CSE423: Computer Graphics Project**  
 by, 
-*Md. Sybeen Abrar Prohor*
-*Md. Abid Ali*
-*Enayet Ali Labib*
+- *Md. Sybeen Abrar Prohor*
+- *Md. Abid Ali*
+- *Enayet Ali Labib*
 
 ***
 
