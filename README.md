@@ -75,7 +75,8 @@
 ***
 
 ## 📸 Demo Screenshots  
-(Add screenshots or GIFs here to showcase camera views, planet collisions, info panel, etc.)  
+<img width="1919" height="1044" alt="image" src="https://github.com/user-attachments/assets/639cbd25-07f4-494f-b0ec-08f9d8d73b18" />
+  
 
 ***
 
