@@ -18,14 +18,14 @@
 - Dynamically **change planet sizes**  
 - Adjust **orbit radius** (distance from the sun) interactively  
 - Display detailed **planet information panel** (distance, size, orbit period, etc.)  
-- Spawn **stars** around planets for realism  
+- Spawn **stars** around planets for realism
+- Speed Controlling
 
 ☄️ **Simulation & Physics**  
 - Pause / Resume animation anytime  
 - Toggle orbit paths on/off for a cleaner view  
 - **Simulate planet collisions** (with removal of collided bodies)  
-- Realistic lighting and shadows powered by the **Sun**  
-- Control **Sun brightness & color** in real time  
+ 
 
 🖱 **User Interactions**  
 - Select planets with **mouse clicks**  
@@ -39,12 +39,17 @@
 | Action | Key |  
 |--------|-----|  
 | Toggle Free Camera / Planet View | `P` |  
-| Focus on Planet | Planet’s **first letter** (e.g. `M` for Mars) |  
-| Zoom In/Out | Mouse Scroll / Assigned Keys |  
-| Pause / Resume | Spacebar |  
+| Focus on Planet | After Clicking Planet | 
+| Orbit Size Inc/Dec | `+/-` |
+| Planet Size Inc/Dec | `S/X` |
+| Planet Speed Inc/Dec | `M/N` |
+| The Sun Size Inc/Dec | `L/K` |
+| Zoom In/Out | Assigned Keys |  
+| Pause / Resume | `C` |  
 | Toggle Orbit Paths | `O` |  
 | Reset | `R` |  
-| Mouse Click | Select Planet |  
+| Mouse Click | Select Planet | 
+| Random Planet Add | `A`|
 
 *(Full customizable controls inside the project code)*  
 
