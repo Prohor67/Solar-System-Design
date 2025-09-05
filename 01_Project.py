@@ -123,9 +123,98 @@ def draw_orbit(planet):
             z = planet.orbit_radius * math.sin(theta)
             glVertex3f(x, 0, z)
         glEnd()
+        
+# Adding a random planet with a random orbit
+def add_random_planet(orbit_radius):
+    color = (random.random(), random.random(), random.random())
+    size = random.randint(8, 30)
+    orbit_speed = random.uniform(0.005, 0.015)
+    angle = random.uniform(0, 2*math.pi)
+    new_planet = Planet('Random', color, orbit_radius, size, orbit_speed, angle)
+    new_planet.is_temp = True
+    planets.append(new_planet)
+
+# Collision checking
+def check_collision(p1, p2):
+    dx = p1.position[0] - p2.position[0]
+    dy = p1.position[1] - p2.position[1]
+    dz = p1.position[2] - p2.position[2]
+    dist = math.sqrt(dx*dx + dy*dy + dz*dz)
+    return dist < (p1.size + p2.size)
 
 
+def draw_scene():
+    global sun_x,sun_y,sun_z
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+    draw_stars()
+    # Setup camera
+    if camera_mode == 'free':
+        gluLookAt(camera_pos[0], camera_pos[1], camera_pos[2], 0,0,0, 0,1,0)
+    elif camera_mode == 'orbit' and selected_planet:
+        target_pos = selected_planet.position
+        cam_x = target_pos[0] + orbit_radius * math.cos(orbit_angle)
+        cam_z = target_pos[2] + orbit_radius * math.sin(orbit_angle)
+        gluLookAt(cam_x, target_pos[1] + 50, cam_z, target_pos[0], target_pos[1], target_pos[2], 0,1,0)
+    else:
+        gluLookAt(0, 500, 500, 0,0,0, 0,1,0)
 
+
+    # Draw Sun
+    glPushMatrix()
+    glColor3f(1.0, 1.0, 0.0)
+    glTranslatef(0,0,0)
+    glutSolidSphere(sun_x, sun_y, sun_z) 
+    glPopMatrix()
+
+    # Draw planets and orbits
+    for planet in planets:
+        if not planet.removed:
+            planet.update_position(1)
+            draw_orbit(planet)
+            draw_planet(planet, planet.position)
+
+    # Collision and blast logic
+    current_time = time.time()
+
+    for i, p1 in enumerate(planets):
+        for j, p2 in enumerate(planets):
+            if i >= j or p1.removed or p2.removed:
+                continue
+            if check_collision(p1, p2):
+                if not p1.blasting and not p2.blasting:
+                    p1.blasting, p2.blasting = True, True
+                    p1.blast_start_time = p2.blast_start_time = current_time
+                    p1.moving = False
+                    p2.moving = False
+
+    # Remove blasted planets after 3 seconds
+    for planet in planets:
+        if planet.blasting and planet.blast_start_time:
+            if current_time - planet.blast_start_time > 3:
+                planet.removed = True
+    planets[:] = [p for p in planets if not p.removed]
+
+    # Draw info panel
+    if selected_planet:
+        info_x, info_y = 10, 50
+        draw_text(info_x, info_y, f"Selected: {selected_planet.name}")
+        dist = math.sqrt(sum([c**2 for c in selected_planet.position]))
+        draw_text(info_x, info_y + 20, f"Distance from Sun: {dist:.1f}")
+        draw_text(info_x, info_y + 40, f"Size: {selected_planet.size}")
+        draw_text(info_x, info_y + 60, f"Orbit Period: {selected_planet.orbit_period} days")
+    else:
+        draw_text(10, 50, "No planet selected")
+    
+    draw_controls_legend()
+    glutSwapBuffers()
+
+def idle():
+    global orbit_angle
+    if not is_paused:
+        if camera_mode == 'orbit':
+            orbit_angle += 0.01
+        glutPostRedisplay()
 
 
 
