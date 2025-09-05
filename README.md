@@ -10,7 +10,7 @@
 
 🔭 **Camera & Viewing Modes**  
 - Free Camera / Planet Perspective (toggle with **P**)  
-- Orbit any planet by pressing its **initial letter**  
+- Orbit any planet by pressing it and then changing it to Planet Perspective by **p**  
 - Smooth zoom and transitions for focused viewing  
 - Reset planets/camera to default with a single key  
 
