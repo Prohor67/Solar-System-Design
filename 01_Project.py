@@ -94,10 +94,23 @@ def draw_stars():
 # Selected planet for info display
 selected_planet = None
 
-
-
-
-
+# Utility functions
+def draw_text(x, y, text, font=GLUT_BITMAP_HELVETICA_18):
+    glColor3f(1,1,1)
+    glMatrixMode(GL_PROJECTION)
+    glPushMatrix()
+    glLoadIdentity()
+    gluOrtho2D(0, width, 0, height)
+    glMatrixMode(GL_MODELVIEW)
+    glPushMatrix()
+    glLoadIdentity()
+    glRasterPos2f(x, y)
+    for ch in text:
+        glutBitmapCharacter(font, ord(ch))
+    glPopMatrix()
+    glMatrixMode(GL_PROJECTION)
+    glPopMatrix()
+    glMatrixMode(GL_MODELVIEW)
 
 def draw_planet(planet, position):
     elapsed = (time.time() - planet.blast_start_time) if planet.blast_start_time else 0
@@ -141,6 +154,28 @@ def check_collision(p1, p2):
     dz = p1.position[2] - p2.position[2]
     dist = math.sqrt(dx*dx + dy*dy + dz*dz)
     return dist < (p1.size + p2.size)
+
+def draw_controls_legend():
+    legend_lines = [
+        "Controls:",
+        "'p' - Toggle camera mode",
+        "'o' - Toggle orbit paths",
+        "'r' - Reset planets",
+        "'c' - Pause/Resume",
+        "'a' - Add random planet",
+        "+/- - Inc/Dec orbit radius",
+        "s/x - Inc/Dec planet size",
+        "m/n - Inc/Dec orbit speed",
+        "l/k - Inc/Dex sun size",
+        "Click planet - Select planet"
+    ]
+    x = width - 250  # Right corner X (adjust 250 as per max text width)
+    y_start = height - 20
+    line_height = 20
+    glColor3f(1.0, 1.0, 1.0)  # White color
+    
+    for i, line in enumerate(legend_lines):
+        draw_text(x, y_start - i * line_height, line)
 
 
 def draw_scene():
