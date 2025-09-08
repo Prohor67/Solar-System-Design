@@ -430,3 +430,32 @@ def mouse_click(button, state, x, y):
                 clicked_planet = planet
         selected_planet = clicked_planet
         glutPostRedisplay()
+
+def init():
+    pass
+
+def resize(w, h):
+    global width, height
+    width, height = w, h
+    glViewport(0, 0, w, h)
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(60, w / h if h != 0 else 1, 0.1, 2000)
+    glMatrixMode(GL_MODELVIEW)
+
+def main():
+    glutInit()
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
+    glutInitWindowSize(width, height)
+    glutCreateWindow(b"Solar System Simulation")
+    init()
+    glutDisplayFunc(draw_scene)
+    glutIdleFunc(idle)
+    glutKeyboardFunc(keyboard)
+    glutSpecialFunc(special_keys)
+    glutMouseFunc(mouse_click)
+    glutReshapeFunc(resize)
+    glutMainLoop()
+
+if __name__ == '__main__':
+    main()
